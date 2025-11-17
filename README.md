@@ -11,7 +11,8 @@ A Python module to analyse High Energy Density (HED) experiments and radiation h
 
 
 ## Dependencies
-   This module requires Python 2.7, 3.3 or higher  with  `numpy`, `scipy`,  `cython`(version 0.29.x or lower), `pytables` and `opacplot2` ( https://github.com/rth/opacplot2).
+   This module requires Python 2.7, 3.3+ with `numpy`, `scipy`, `cython` ( ≤ 0.29.37), `pytables` and `opacplot2` (https://github.com/rth/opacplot2).
+   NOT COMPATIBLE with `cython` ≥ 3.0.0
 
  Optional dependencies include:
  - `matplotlib`
