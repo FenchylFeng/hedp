@@ -5,6 +5,7 @@
 # This software is governed by the CeCILL-B license under French law and
 # abiding by the rules of distribution of free software.
 
+import os
 from setuptools import setup, find_packages, Extension
 from setuptools import find_packages
 from Cython.Distutils import build_ext
@@ -18,9 +19,10 @@ Cython.Compiler.Options.annotate = True
 
 # Optional path to find the the GNU scientific library (GSL)
 
-INCLUDE_GSL = None #  "/usr/include"
-LIB_GSL = None #  "/usr/lib64"
+INCLUDE_GSL = os.environ.get('GSL_INCLUDE') #  "/usr/include"
+LIB_GSL = os.environ.get('GSL_LIB')         #  "/usr/lib64"
 
+include_dirs=[np.get_include()]
 ext_modules=[
     Extension("hedp.lib.integrators",
              ["hedp/lib/integrators.pyx"],),
@@ -29,6 +31,7 @@ ext_modules=[
 ]
 
 if INCLUDE_GSL:
+    include_dirs.append(INCLUDE_GSL)
     ext_modules.append(Extension("hedp.lib.multigroup",
              ["hedp/lib/multigroup.pyx"],
              extra_compile_args=['-O3', '-fopenmp', '-march=native', '-Wall'],
@@ -45,7 +48,7 @@ setup(name='hedp',
       packages=find_packages(),
       cmdclass = {'build_ext': build_ext},
       ext_modules = ext_modules,
-      include_dirs=[np.get_include(), INCLUDE_GSL],
+      include_dirs=include_dirs,
       package_data={'hedp': ['hedp/tests/data/*', 'data/db']},
       test_suite="hedp.tests.run"
      )
